@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h1>HELLO! This is the section details</h1>
+
+	<h3>{{ story.title }}</h3>
+	<ul>
+		{% for section in sections %}
+		<li>{{ section.body_content }}</li>
+		{% endfor %}
+	</ul>
+		
+
+{% endblock %}

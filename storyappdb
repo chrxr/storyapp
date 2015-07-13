@@ -1,0 +1,1365 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO chrisrogers;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO chrisrogers;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO chrisrogers;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: core_genre; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE core_genre (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.core_genre OWNER TO chrisrogers;
+
+--
+-- Name: core_genre_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE core_genre_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.core_genre_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: core_genre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE core_genre_id_seq OWNED BY core_genre.id;
+
+
+--
+-- Name: core_section; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE core_section (
+    id integer NOT NULL,
+    body_content text NOT NULL,
+    votes integer NOT NULL,
+    status character varying(255) NOT NULL,
+    story_id integer NOT NULL,
+    user_id integer,
+    "position" integer
+);
+
+
+ALTER TABLE public.core_section OWNER TO chrisrogers;
+
+--
+-- Name: core_section_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE core_section_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.core_section_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: core_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE core_section_id_seq OWNED BY core_section.id;
+
+
+--
+-- Name: core_section_votes_cast; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE core_section_votes_cast (
+    id integer NOT NULL,
+    section_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.core_section_votes_cast OWNER TO chrisrogers;
+
+--
+-- Name: core_section_votes_cast_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE core_section_votes_cast_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.core_section_votes_cast_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: core_section_votes_cast_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE core_section_votes_cast_id_seq OWNED BY core_section_votes_cast.id;
+
+
+--
+-- Name: core_story; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE core_story (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    genre_id integer,
+    slug character varying(255)
+);
+
+
+ALTER TABLE public.core_story OWNER TO chrisrogers;
+
+--
+-- Name: core_story_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE core_story_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.core_story_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: core_story_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE core_story_id_seq OWNED BY core_story.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO chrisrogers;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO chrisrogers;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO chrisrogers;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: chrisrogers
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO chrisrogers;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrisrogers
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO chrisrogers;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_genre ALTER COLUMN id SET DEFAULT nextval('core_genre_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section ALTER COLUMN id SET DEFAULT nextval('core_section_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section_votes_cast ALTER COLUMN id SET DEFAULT nextval('core_section_votes_cast_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_story ALTER COLUMN id SET DEFAULT nextval('core_story_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_group (id, name) FROM stdin;
+1	member
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, true);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+1	1	19
+2	1	22
+\.
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 2, true);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add permission	2	add_permission
+5	Can change permission	2	change_permission
+6	Can delete permission	2	delete_permission
+7	Can add group	3	add_group
+8	Can change group	3	change_group
+9	Can delete group	3	delete_group
+10	Can add user	4	add_user
+11	Can change user	4	change_user
+12	Can delete user	4	delete_user
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add story	7	add_story
+20	Can change story	7	change_story
+21	Can delete story	7	delete_story
+22	Can add Story section	8	add_section
+23	Can change Story section	8	change_section
+24	Can delete Story section	8	delete_section
+25	Can add genre	9	add_genre
+26	Can change genre	9	change_genre
+27	Can delete genre	9	delete_genre
+\.
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 27, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+3	pbkdf2_sha256$20000$oTlyvqMcZYSU$3VWjdMoCNlBE9IOcjS4j8JIh3Ob/d10aw0QSbnusY4A=	\N	f	chris_r				f	t	2015-07-12 18:30:45.877586+01
+4	pbkdf2_sha256$20000$IirNdkxMBHk5$s79DVaRuOFFRR5YsDDgsCt0fz5/gsqD9e/MHntM+h5c=	\N	f	chris_rogers				f	t	2015-07-12 18:31:29.06784+01
+5	pbkdf2_sha256$20000$ss8SGDFqPnJW$QPKnyU5OwvdiertVCWgL+aDwLrrGccH0NTSWjBWDJ/Q=	\N	f	joolio			chrxr@hotmail.co.uk	f	t	2015-07-12 18:33:54.423513+01
+2	pbkdf2_sha256$20000$iWCwoLStGNOj$Xr6/Zwx58O/N6t7WsDmiL2FXeX4VjKfEpK3A+VWSyk8=	2015-07-12 22:31:27.213771+01	f	chris				f	t	2015-07-12 18:29:30.550094+01
+1	pbkdf2_sha256$20000$2i3XNGPvrKl2$t3Pt+iyf2UUJZhpn0cZ5pk4wxmXwtl2CMq9usTbd2z0=	2015-07-12 22:43:14.869271+01	t	chrxr			hfsd@gsjdf.com	t	t	2015-07-11 21:55:31.223862+01
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 5, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: core_genre; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY core_genre (id, title) FROM stdin;
+1	Horror
+2	Romance
+3	Sci-fi
+4	Erotic
+5	Fan fiction
+6	Fantasy
+7	Crime
+8	Noir
+\.
+
+
+--
+-- Name: core_genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('core_genre_id_seq', 8, true);
+
+
+--
+-- Data for Name: core_section; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY core_section (id, body_content, votes, status, story_id, user_id, "position") FROM stdin;
+1	This is the very first section of the story.	0	approved	1	1	\N
+2	A second story entry	0	approved	1	1	\N
+6	This one should show up, now this one should be third	4	approved	3	1	3
+7	This one should be second	6	approved	3	1	2
+4	This is a new section for this story.	7	approved	3	1	1
+5	This story should not show up in the front-end	6	rejected	3	1	1
+8	THis is a new story	0	approved	3	2	4
+9	One more section to go on the end. This should be in position 5.	0	submitted	3	1	5
+10	Oh, and here is another one that will go in here.	0	submitted	3	1	5
+\.
+
+
+--
+-- Name: core_section_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('core_section_id_seq', 10, true);
+
+
+--
+-- Data for Name: core_section_votes_cast; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY core_section_votes_cast (id, section_id, user_id) FROM stdin;
+5	5	1
+6	4	1
+7	7	1
+8	6	1
+9	5	2
+\.
+
+
+--
+-- Name: core_section_votes_cast_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('core_section_votes_cast_id_seq', 9, true);
+
+
+--
+-- Data for Name: core_story; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY core_story (id, title, genre_id, slug) FROM stdin;
+1	A test story	1	a-test-story
+2	This is a story that will be sluggified	3	this-is-a-story-that-will-be-sluggified
+3	A story	\N	a-story
+4	A cool story about horses	3	a-cool-story-about-horses
+19	a story again	\N	a-story-again
+\.
+
+
+--
+-- Name: core_story_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('core_story_id_seq', 19, true);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2015-07-11 22:52:32.786925+01	1	A test story	1		7	1
+2	2015-07-11 23:06:44.634684+01	1	Horror	1		9	1
+3	2015-07-11 23:06:50.15324+01	2	Romance	1		9	1
+4	2015-07-11 23:06:53.392561+01	3	Sci-fi	1		9	1
+5	2015-07-11 23:06:57.755942+01	4	Erotic	1		9	1
+6	2015-07-11 23:07:01.531569+01	5	Fan fiction	1		9	1
+7	2015-07-11 23:07:07.170442+01	6	Fantasy	1		9	1
+8	2015-07-11 23:07:12.812463+01	7	Crime	1		9	1
+9	2015-07-11 23:07:15.598658+01	8	Noir	1		9	1
+10	2015-07-11 23:07:33.531931+01	1	A test story	2	Changed genre.	7	1
+11	2015-07-11 23:08:43.341253+01	1	section object	1		8	1
+12	2015-07-11 23:12:38.822666+01	1	section object	2	Changed user.	8	1
+13	2015-07-11 23:12:49.788924+01	2	section object	1		8	1
+14	2015-07-11 23:31:43.21765+01	1	A test story	2	Changed slug.	7	1
+15	2015-07-11 23:38:46.088834+01	2	This is a story that will be sluggified	1		7	1
+16	2015-07-11 23:47:07.874529+01	3	A story	1		7	1
+17	2015-07-11 23:48:17.697257+01	3	A story	2	Changed slug.	7	1
+18	2015-07-12 11:56:44.523159+01	4	A story | chrxr	2	Changed status and position.	8	1
+19	2015-07-12 11:57:49.466903+01	5	A story | chrxr	1		8	1
+20	2015-07-12 11:58:29.453718+01	6	A story | chrxr	1		8	1
+21	2015-07-12 11:58:47.620787+01	6	A story | chrxr	2	Changed body_content and position.	8	1
+22	2015-07-12 11:59:00.35912+01	7	A story | chrxr	1		8	1
+23	2015-07-12 11:59:28.691457+01	7	A story | chrxr	2	Changed position.	8	1
+24	2015-07-12 14:55:22.262542+01	1	member	1		3	1
+25	2015-07-12 21:51:08.139705+01	5	A story | chrxr	2	Changed votes_cast.	8	1
+26	2015-07-12 21:52:32.113532+01	5	A story | chrxr	2	Changed votes_cast.	8	1
+27	2015-07-12 21:58:06.409025+01	7	A story | chrxr	2	Changed votes_cast.	8	1
+28	2015-07-12 22:01:40.926453+01	5	A story | chrxr	2	Changed votes_cast.	8	1
+29	2015-07-12 22:44:00.731367+01	8	A story | chris	2	Changed status.	8	1
+\.
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 29, true);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	core	story
+8	core	section
+9	core	genre
+\.
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 9, true);
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2015-07-11 21:55:21.340886+01
+2	auth	0001_initial	2015-07-11 21:55:21.443058+01
+3	admin	0001_initial	2015-07-11 21:55:21.467061+01
+4	contenttypes	0002_remove_content_type_name	2015-07-11 21:55:21.507093+01
+5	auth	0002_alter_permission_name_max_length	2015-07-11 21:55:21.521977+01
+6	auth	0003_alter_user_email_max_length	2015-07-11 21:55:21.537056+01
+7	auth	0004_alter_user_username_opts	2015-07-11 21:55:21.551026+01
+8	auth	0005_alter_user_last_login_null	2015-07-11 21:55:21.567363+01
+9	auth	0006_require_contenttypes_0002	2015-07-11 21:55:21.569613+01
+10	sessions	0001_initial	2015-07-11 21:55:21.58011+01
+11	core	0001_initial	2015-07-11 21:58:33.825977+01
+12	core	0002_auto_20150711_2105	2015-07-11 22:05:11.159251+01
+13	core	0003_section	2015-07-11 22:17:17.218488+01
+14	core	0004_auto_20150711_2206	2015-07-11 23:06:04.891699+01
+15	core	0005_remove_section_user	2015-07-11 23:11:08.132324+01
+16	core	0006_section_user	2015-07-11 23:12:27.000302+01
+17	core	0007_story_slug	2015-07-11 23:18:49.332287+01
+18	core	0008_auto_20150711_2243	2015-07-11 23:43:26.979601+01
+19	core	0009_auto_20150711_2246	2015-07-11 23:46:51.733998+01
+20	core	0010_section_postition	2015-07-12 11:49:26.466645+01
+21	core	0011_auto_20150712_1052	2015-07-12 11:52:04.185079+01
+22	core	0012_section_votes_cast	2015-07-12 21:44:48.690755+01
+\.
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisrogers
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 22, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: chrisrogers
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+j41elu0fho2jmxm53ftauo8qi3igpzq9	Mjk3YWQzNGQ1MDRmZTliNTYzMTJiNDBjMzA1YWUwZmYxZjBhNWU4MTp7Il9hdXRoX3VzZXJfaGFzaCI6ImU5NmZmNjk3ZDA5MTlmOTU5NTBiNWYwMGVjM2Y1ZTUzMzIzY2JkMWEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2015-07-26 22:43:14.872564+01
+\.
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_key UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_key UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_key UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_key UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: core_genre_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_genre
+    ADD CONSTRAINT core_genre_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: core_section_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_section
+    ADD CONSTRAINT core_section_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: core_section_votes_cast_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_section_votes_cast
+    ADD CONSTRAINT core_section_votes_cast_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: core_section_votes_cast_section_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_section_votes_cast
+    ADD CONSTRAINT core_section_votes_cast_section_id_user_id_key UNIQUE (section_id, user_id);
+
+
+--
+-- Name: core_story_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_story
+    ADD CONSTRAINT core_story_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: core_story_slug_44d4810e44f35e9b_uniq; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY core_story
+    ADD CONSTRAINT core_story_slug_44d4810e44f35e9b_uniq UNIQUE (slug);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_630c8b1f15ee5a7_uniq; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_630c8b1f15ee5a7_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: auth_group_name_76834297f802289b_like; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_76834297f802289b_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_0e939a4f ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_8373b171 ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_permission_417f1b1c ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_0e939a4f; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_0e939a4f ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_e8701ad4; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_e8701ad4 ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_8373b171 ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_e8701ad4; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_e8701ad4 ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_782f26948866dce9_like; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_782f26948866dce9_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: core_section_e8701ad4; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_section_e8701ad4 ON core_section USING btree (user_id);
+
+
+--
+-- Name: core_section_f5976bb5; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_section_f5976bb5 ON core_section USING btree (story_id);
+
+
+--
+-- Name: core_section_votes_cast_730f6511; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_section_votes_cast_730f6511 ON core_section_votes_cast USING btree (section_id);
+
+
+--
+-- Name: core_section_votes_cast_e8701ad4; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_section_votes_cast_e8701ad4 ON core_section_votes_cast USING btree (user_id);
+
+
+--
+-- Name: core_story_080a38f3; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_story_080a38f3 ON core_story USING btree (genre_id);
+
+
+--
+-- Name: core_story_slug_4d3773d1dca09e7_uniq; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX core_story_slug_4d3773d1dca09e7_uniq ON core_story USING btree (slug);
+
+
+--
+-- Name: django_admin_log_417f1b1c; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_417f1b1c ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_e8701ad4; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_e8701ad4 ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_24c12bb112dc2559_like; Type: INDEX; Schema: public; Owner: chrisrogers; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_24c12bb112dc2559_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: auth_content_type_id_58ea5b4e6a6e0646_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_content_type_id_58ea5b4e6a6e0646_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissio_group_id_661b284587c31d0b_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_group_id_661b284587c31d0b_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permission_id_45aa7a4c2d849b0e_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permission_id_45aa7a4c2d849b0e_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_d29cd7600f53196_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_d29cd7600f53196_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_user_id_264c1b6ad78633e_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_264c1b6ad78633e_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_u_permission_id_ecca18af50d0b0b_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_u_permission_id_ecca18af50d0b0b_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permiss_user_id_6fd1d63d46dc3bf0_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permiss_user_id_6fd1d63d46dc3bf0_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: core_section_story_id_21f2f3dded51d743_fk_core_story_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section
+    ADD CONSTRAINT core_section_story_id_21f2f3dded51d743_fk_core_story_id FOREIGN KEY (story_id) REFERENCES core_story(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: core_section_user_id_5673b648fc447398_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section
+    ADD CONSTRAINT core_section_user_id_5673b648fc447398_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: core_section_vot_section_id_4ec28330627cbd10_fk_core_section_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section_votes_cast
+    ADD CONSTRAINT core_section_vot_section_id_4ec28330627cbd10_fk_core_section_id FOREIGN KEY (section_id) REFERENCES core_section(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: core_section_votes_cas_user_id_4091c3f9e4dc09b8_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_section_votes_cast
+    ADD CONSTRAINT core_section_votes_cas_user_id_4091c3f9e4dc09b8_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: core_story_genre_id_534521bac4fd74e6_fk_core_genre_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY core_story
+    ADD CONSTRAINT core_story_genre_id_534521bac4fd74e6_fk_core_genre_id FOREIGN KEY (genre_id) REFERENCES core_genre(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: djan_content_type_id_12bc336dba74f04d_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT djan_content_type_id_12bc336dba74f04d_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_40af8255a0e398f6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: chrisrogers
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_40af8255a0e398f6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: chrisrogers
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM chrisrogers;
+GRANT ALL ON SCHEMA public TO chrisrogers;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

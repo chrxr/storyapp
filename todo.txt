@@ -1,0 +1,8 @@
+- Add in user login
+- Add in voting logic and timing
+
+Further stuff - 
+ - Rich text editor for section
+ - Character counter for section
+ - Moderator editing capabilities (Adding in headings / chapter breaks)
+ - Exporting to ebook

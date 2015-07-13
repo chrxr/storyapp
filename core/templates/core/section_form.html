@@ -1,0 +1,5 @@
+<form action="/stories/{{ story.slug }}/sections/create-section/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>

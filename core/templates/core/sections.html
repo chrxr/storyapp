@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h1>HELLO! This is the sections page</h1>
+
+<ul>
+{% for section in sections %}
+	<li>{{ section.body_content }}</li>
+	<form action="{{ section.id }}/vote/" method='post'>
+		{% csrf_token %}
+		<input type='submit' value='Vote' />
+	</form>
+{% endfor %}
+</ul>
+{% endblock %}
