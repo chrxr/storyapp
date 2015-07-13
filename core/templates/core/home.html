@@ -1,0 +1,11 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h1>Welcome to the storyapp homepage</h1>
+
+<ul>
+	<li><a href='{% url 'create-story' %}'>Create a story</a></li> 
+	<li><a href='{% url 'stories' %}'>See all stories</a></li> 
+</ul>
+
+{% endblock %}

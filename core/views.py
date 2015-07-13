@@ -24,8 +24,13 @@ def storyDetails(request, story_slug):
 
 def sections(request, story_slug):
 	this_story = get_object_or_404(story, slug=story_slug)
-	sections = section.objects.filter(story=this_story)
-	return render(request, 'core/sections.html', {"sections": sections})
+	approved_sections = section.objects.filter(story=this_story, status='approved').order_by('position')
+	positions = []
+	for a_section in approved_sections:
+		positions.append(a_section.position)
+	next_position = positions[-1] + 1
+	sections = section.objects.filter(story=this_story, position=next_position)
+	return render(request, 'core/sections.html', {"sections": sections, 'story': this_story})
 
 @login_required
 def createStory(request):
@@ -88,18 +93,24 @@ def Welcome(request):
 def vote(request, story_slug, section_id):
 	if request.method == 'POST':
 		this_story = story.objects.filter(slug=story_slug)
-		sections = section.objects.exclude(votes_cast=None).distinct()
-		vote_list = []
-		for this_section in sections:
-			voters = this_section.votes_cast.all()
-			for voter in voters:
-				vote_list.append(voter)
-		if request.user in vote_list:
-			return HttpResponse("Sorry, you've already voted on this bit!")
 		this_section = section.objects.get(pk=section_id)
-		this_section.votes_cast.add(request.user)
-		this_section_votes = this_section.votes + 1
-		section.objects.filter(pk=section_id).update(votes = this_section_votes)
-		return HttpResponse("Thanks for voting!")
+		has_user_made_a_section = section.objects.filter(story=this_story, user=request.user)
+		if has_user_made_a_section:
+			sections = section.objects.exclude(votes_cast=None).filter(position=this_section.position).distinct()
+			vote_list = []
+			for a_section in sections:
+				voters = a_section.votes_cast.all()
+				for voter in voters:
+					vote_list.append(voter)
+			if request.user in vote_list:
+				return HttpResponse("Sorry, you've already voted on this bit!")
+			this_section = section.objects.get(pk=section_id)
+			this_section.votes_cast.add(request.user)
+			this_section_votes = this_section.votes + 1
+			section.objects.filter(pk=section_id).update(votes = this_section_votes)
+			return HttpResponse("Thanks for voting!")
+		else:
+			return HttpResponse("Sorry, you need to write a section before you can vote")
 	else:
 		return HttpResponseNotFound('<h1>Page not found</h1>')
+

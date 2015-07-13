@@ -4,11 +4,11 @@
 <h1>HELLO! This is the section details</h1>
 
 	<h3>{{ story.title }}</h3>
-	<ul>
 		{% for section in sections %}
-		<li>{{ section.body_content }}</li>
+		<p>{{ section.body_content }}</p>
 		{% endfor %}
-	</ul>
-		
+
+		<h3>Write the next part of the story!</h3>
+		<a href='{% url 'create-section' story.slug %}'>Click here!</a>
 
 {% endblock %}

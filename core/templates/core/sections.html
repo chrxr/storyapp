@@ -5,7 +5,7 @@
 <ul>
 {% for section in sections %}
 	<li>{{ section.body_content }}</li>
-	<form action="{{ section.id }}/vote/" method='post'>
+	<form action="{% url 'vote' story.slug section.id %}" method='post'>
 		{% csrf_token %}
 		<input type='submit' value='Vote' />
 	</form>

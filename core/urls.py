@@ -1,11 +1,12 @@
 from django.conf.urls import url, include
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, TemplateView
+
 
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', TemplateView.as_view(template_name='core/home.html')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login/'}),
     url('^', include('django.contrib.auth.urls')),
     url(r'^create-account/$', views.createAccount, name='create-account'),
