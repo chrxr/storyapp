@@ -40,6 +40,7 @@ class section(models.Model):
     story = models.ForeignKey('story')
     user = models.ForeignKey(User, blank=True, null=True)
     votes_cast = models.ManyToManyField(User, blank=True, related_name='votes_cast')
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Story section'
