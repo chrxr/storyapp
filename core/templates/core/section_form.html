@@ -1,5 +1,25 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
 <form action="/stories/{{ story.slug }}/sections/create-section/" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
 </form>
+<div class='editable'></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/hallo.js' %}"></script>
+<script>
+jQuery('.editable').hallo({
+  plugins: {
+    'halloformat': {}
+  }
+});
+</script>
+
+{% endblock %}

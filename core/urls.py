@@ -6,8 +6,8 @@ from django.views.generic.base import RedirectView, TemplateView
 from . import views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='core/home.html')),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login/'}),
+    url(r'^$', TemplateView.as_view(template_name='core/home.html'), name='home'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url('^', include('django.contrib.auth.urls')),
     url(r'^create-account/$', views.createAccount, name='create-account'),
     url(r'^welcome/$', views.Welcome, name='welcome'),

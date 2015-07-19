@@ -1,5 +1,11 @@
-<form action="" method="post">
+{% extends "core/base.html" %}
+
+{% block content %}
+
+<form action="" method="post" class='create_account_form'>
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_ul }}
     <input type="submit" value="Submit" />
 </form>
+
+{% endblock %}

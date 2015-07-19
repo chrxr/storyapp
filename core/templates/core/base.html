@@ -3,13 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 {% if request.user.is_authenticated %}
-<p> Hello {{ request.user }}</p>
+<p> Hello {{ request.user }} | <a href='{% url 'logout' %}'>Logout</a></p>
+{% else %}
+<p><a href="{% url 'login' %}">Login</a> | <a href='{% url 'create-account' %}'>Sign-up</a></p>
 {% endif %}
 {% block content %}
 {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
+{% block extra_js %}{% endblock %}
 
 </body>
 </html>

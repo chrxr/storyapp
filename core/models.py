@@ -19,6 +19,8 @@ class story(models.Model):
     title = models.CharField('Story title', max_length=255)
     genre = models.ForeignKey(Genre, blank=True, null=True)
     slug = models.SlugField('Story slug', max_length=255, null=True, blank=True, unique=True)
+    story_owner = models.ForeignKey(User, blank=True, null=True)
+    current_length = models.IntegerField(null=True, blank=True, default=0)
 
     class Meta:
         verbose_name_plural = 'Stories'

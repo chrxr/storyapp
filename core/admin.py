@@ -6,10 +6,11 @@ from .models import story, section, Genre
 @admin.register(story)
 class storyAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+    list_display = ('title', 'genre', 'current_length')
 
 @admin.register(section)
 class sectionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'story','votes', 'position')
+    list_display = ('__str__', 'story','votes', 'position', 'status')
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
